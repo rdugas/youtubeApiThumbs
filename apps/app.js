@@ -14,6 +14,7 @@ $(document).ready(function() {
     });
 });
 
+
 function getRequest(endpoint, searchString) {
     var params = {
         part: 'snippet',
@@ -34,10 +35,24 @@ function getRequest(endpoint, searchString) {
 function showResults(results) {
     var html = "";
     $.each(results, function(index, value) {
+
         thumbNailImgUrl = value.snippet.thumbnails.default.url;
+        videoId = value.id.videoId;
+        videoTitle = value.snippet.title;
+
+        console.log("videoid: " + videoId);
         html += ("<img src=" + value.snippet.thumbnails.default.url + ">");
-        html += "<p>" + value.snippet.title + "</p>";
-        console.log(value.snippet.title);
+        console.log("title: " + value.snippet.title);
+        html += generateHtmlForVideoLink(getUrlForVideoId(videoId)) + "<br>";
     });
     $('#search-results').html(html);
+}
+
+function getUrlForVideoId(videoId) {
+    return "https://www.youtube.com/watch?v=" + videoId;
+}
+
+
+function generateHtmlForVideoLink(videoLink) {
+    return "<a href=\"" + videoLink + "\" target=\"_blank\">" + videoTitle + "</a>";
 }
