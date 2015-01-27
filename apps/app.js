@@ -8,22 +8,25 @@ $(document).ready(function() {
         var searchString = $('#query').val();
         // var searchString = 'http://www.omdbapi.com/?s=' + searchTerm + '&r=json';
         console.log(searchString);
-        getRequest(searchString);
+        var endpoint = "https://www.googleapis.com/youtube/v3/search"
+        getRequest(endpoint, searchString);
 
     });
 });
 
-function getRequest(searchString) {
+function getRequest(endpoint, searchString) {
     var params = {
-        s: searchString,
-        r: 'json'
+        part: 'snippet',
+        key: 'AIzaSyC9vnMgUmuZEa9bUHCO2eF63LhNDk728D8',
+        q: searchString
     };
-    url = 'http://www.omdbapi.com';
 
-    $.getJSON(url, params, function(data) {
+    $.getJSON(endpoint, params, function(data) {
         console.log("get json called");
-        console.log(data.Search);
-        showResults(data.Search);
+        console.log("params: " + params.part + params.key + params.q);
+        console.log(data);
+        ytdata = data;
+        showResults(data.items);
     });
 }
 
@@ -31,7 +34,8 @@ function getRequest(searchString) {
 function showResults(results) {
     var html = "";
     $.each(results, function(index, value) {
-        html += '<p>' + value.Title + '</p>';
+        thumbNailImgUrl = value.snippet.thumbnails.default.url;
+        html += ("<img src=" + value.snippet.thumbnails.default.url + ">");
         console.log(value.Title);
     });
     $('#search-results').html(html);
