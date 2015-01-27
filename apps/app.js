@@ -36,7 +36,8 @@ function showResults(results) {
     $.each(results, function(index, value) {
         thumbNailImgUrl = value.snippet.thumbnails.default.url;
         html += ("<img src=" + value.snippet.thumbnails.default.url + ">");
-        console.log(value.Title);
+        html += "<p>" + value.snippet.title + "</p>";
+        console.log(value.snippet.title);
     });
     $('#search-results').html(html);
 }
